@@ -13,21 +13,6 @@ const double LNG_MAX = 180.0;
 const double DIST_KM_MIN = 0.0;
 const double DIST_KM_MAX = 20000.0;
 
-point_t point_init(const double ltt, const double lng) {
-  if (ltt_is_valid(ltt) == false) {
-    point_t p = {.ltt = 0, .lng = 0, .status = LTT_INVALID};
-    return p;
-  }
-
-  if (lng_is_valid(lng) == false) {
-    point_t p = {.ltt = 0, .lng = 0, .status = LNG_INVALID};
-    return p;
-  }
-
-  point_t p = {.ltt = ltt, .lng = lng, .status = POINT_OK};
-  return p;
-}
-
 bool ltt_is_valid(const double ltt) {
   if (ltt < LTT_MIN) {
     return false;
@@ -58,14 +43,32 @@ bool lng_is_valid(const double lng) {
 
 */
 
-distance_t distance(const point_t *p1, const point_t *p2) {
-  assert(p1 != NULL);
-  assert(p2 != NULL);
+distance_t distance(const point_t p1, const point_t p2) {
 
-  double ltt_1r = to_rad(p1->ltt);
-  double ltt_2r = to_rad(p2->ltt);
+  if (ltt_is_valid(p1.ltt) == false) {
+    distance_t d = {.distance = 0, .status = P1_LTT_INVALID};
+    return d;
+  }
 
-  double dlng = p1->lng - p2->lng;
+  if (lng_is_valid(p1.lng) == false) {
+    distance_t d = {.distance = 0, .status = P1_LNG_INVALID};
+    return d;
+  }
+
+  if (ltt_is_valid(p2.ltt) == false) {
+    distance_t d = {.distance = 0, .status = P2_LTT_INVALID};
+    return d;
+  }
+
+  if (lng_is_valid(p2.lng) == false) {
+    distance_t d = {.distance = 0, .status = P2_LNG_INVALID};
+    return d;
+  }
+
+  double ltt_1r = to_rad(p1.ltt);
+  double ltt_2r = to_rad(p2.ltt);
+
+  double dlng = p1.lng - p2.lng;
   double dlng_r = to_rad(dlng);
 
   double dz = sin(ltt_1r) - sin(ltt_2r);
