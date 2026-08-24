@@ -1,15 +1,20 @@
 #include <stdbool.h>
 
-typedef enum { POINT_OK, LTT_INVALID, LNG_INVALID } pstatus_t;
-
 typedef struct {
   double ltt;
   double lng;
   char name[64];
-  pstatus_t status;
 } point_t;
 
-typedef enum { DIST_OK, OVERFLOW_MIN, OVERFLOW_MAX } dstatus_t;
+typedef enum {
+  DIST_OK,
+  OVERFLOW_MIN,
+  OVERFLOW_MAX,
+  P1_LTT_INVALID,
+  P1_LNG_INVALID,
+  P2_LTT_INVALID,
+  P2_LNG_INVALID
+} dstatus_t;
 
 typedef struct {
   double distance;
@@ -18,7 +23,6 @@ typedef struct {
 
 bool ltt_is_valid(const double);
 bool lng_is_valid(const double);
-point_t point_init(double ltt, double lng);
 
-distance_t distance(const point_t *p1, const point_t *p2);
+distance_t distance(const point_t, const point_t);
 double to_rad(double degrees);
