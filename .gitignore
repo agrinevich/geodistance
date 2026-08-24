@@ -1,4 +1,5 @@
 geodistance
+test
 
 *.dll
 *.elf
@@ -9,6 +10,9 @@ geodistance
 *.obj
 *.out
 *.so
+*.gcov
+*.gcda
+*.gcno
 
 *.ilk
 *.map
